@@ -2,7 +2,7 @@ import streamlit as st
 import datetime
 import json
 
-st.set_page_config(page_title="Pathes Manager", page_icon=":wrench:", layout="wide")
+st.set_page_config(page_title="Pathes Manager", page_icon=":wrench:")
 
 minigameTypes = [
     "conversation",
@@ -113,3 +113,4 @@ if submit_button:
         use_container_width=True,
         type="primary"
     )
+
