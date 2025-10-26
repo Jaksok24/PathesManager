@@ -2,7 +2,7 @@ import streamlit as st
 import datetime
 import json
 
-st.set_page_config(page_title="Pathes Manager", page_icon=":wrench:", layout="centered")
+st.set_page_config(page_title="Pathes Manager", page_icon=":wrench:")
 
 minigameTypes = [
     "conversation",
@@ -18,6 +18,7 @@ if "pathProcess" not in st.session_state:
     st.session_state.pathProcess = []
     st.session_state.conversationNodes = []
     st.session_state.conversationChoice = []
+    st.session_state.notebookPages = []
 
 # --- Main form ---
 with st.container(border=True):
@@ -54,6 +55,9 @@ with st.container(border=True):
     if minigameType == "conversation":
         from services.conversation import add_conversation
         minigameData = add_conversation()
+    if minigameType == "notebook":
+        from services.notebook import add_notebook
+        minigameData = add_notebook()
 
     left, right = st.columns(2)
     with left:
@@ -61,6 +65,9 @@ with st.container(border=True):
             if minigameType == "conversation":
                 from services.conversation import add_point_conversation
                 add_point_conversation()
+            if minigameType == "notebook":
+                from services.notebook import add_page_notebook
+                add_page_notebook()
     with right:
         submit_button = st.button("📦 Generuj JSON", type="primary", use_container_width=True)
 
@@ -105,6 +112,7 @@ st.subheader("Podgląd JSON", anchor=False)
 st.json(data, expanded=True)
 
 if submit_button:
+    st.session_state.clear()
     st.download_button(
         label="📥 Pobierz JSON",
         data=json.dumps(data, indent=4, ensure_ascii=False),
@@ -113,5 +121,3 @@ if submit_button:
         use_container_width=True,
         type="primary"
     )
-
-
